@@ -32,12 +32,25 @@ class MyApp:
 		
 		self.up = Button(self.myContainer1)
 		self.up.configure(text="Up", background= "green")
-		self.up.grid(row=0,column=0)
+		self.up.grid(row=0,column=1)
+		
+		self.down = Button(self.myContainer1)
+		self.down.configure(text="Down", background= "green")
+		self.down.grid(row=1,column=1)
+		
+		self.left = Button(self.myContainer1)
+		self.left.configure(text="Left", background= "green")
+		self.left.grid(row=1,column=0)
+		
+		self.right = Button(self.myContainer1)
+		self.right.configure(text="Right", background= "green")
+		self.right.grid(row=1,column=3)
 					
 		# "Bind" an action to the first button												
 		self.up.bind("<Button-1>", self.moveUp)
-                
-		  
+                self.down.bind("<Button-1>", self.moveDown)
+		self.left.bind("<Button-1>", self.moveLeft)
+		self.right.bind("<Button-1>", self.moveRight)  
 		# This creates the drawpad - no need to change this 
 		drawpad.pack()
 		self.animate()
@@ -47,10 +60,26 @@ class MyApp:
 		global player
 		global drawpad
                 x1,y1,x2,y2 = drawpad.coords(player)
-		# Get the coords of our target
-                drawpad.move(player,0,-10)
-    
-         
+		if y1 > 0:
+                    drawpad.move(player,0,-10)
+        def moveDown(self, event):
+                global player
+                global drawpad
+                x1, y1, x2, y2, = drawpad.coords(player)
+                if y2 < 320:
+                    drawpad.move(player,0,10) 
+        def moveLeft(self, event):
+                global player
+                global drawpad
+                x1, y1, x2, y2, = drawpad.coords(player)  
+                if x1 > 0: 
+                    drawpad.move(player,-10,0)      
+        def moveRight(self, event):
+                global player
+                global drawpad
+                x1, y1, x2, y2, = drawpad.coords(player)
+                if x2 < 480:
+                    drawpad.move(player,10,0)
         # Animate function that will bounce target left and right, and trigger the collision detection  
 	def animate(self):
 	    global target
